@@ -29,6 +29,12 @@ jobs:
           pip install -r requirements.txt
 
 
+      - name: Create Blogger Credentials
+        run: |
+          echo '${{ secrets.CREDENTIALS_JSON }}' > credentials.json
+          echo '${{ secrets.TOKEN_JSON }}' > token.json
+
+
       - name: Run Blogger Bot
         run: |
           python blogger/blogger_upload.py
