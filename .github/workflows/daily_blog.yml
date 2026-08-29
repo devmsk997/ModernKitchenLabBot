@@ -1,0 +1,40 @@
+name: Daily Blog Automation
+
+on:
+  schedule:
+    - cron: "0 15 * * *"
+
+  workflow_dispatch:
+
+
+jobs:
+  publish-blog:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+
+      - name: Create Blogger Credentials
+        run: |
+          echo '${{ secrets.CREDENTIALS_JSON }}' > credentials.json
+          echo '${{ secrets.TOKEN_JSON }}' > token.json
+
+
+      - name: Run Blogger Bot
+        run: |
+          python blogger/blogger_upload.py
