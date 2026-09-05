@@ -1,18 +1,18 @@
-from article_writer import generate_article
-from seo_formatter import format_for_seo
+from __future__ import annotations
+
+from .article_writer import generate_article
+from .seo_formatter import format_for_seo
 
 
 def run_content_pipeline(topic, keyword):
 
     print("\n===== CONTENT PIPELINE START =====")
 
-
     # 1. Generate Article
     article = generate_article(
         topic,
         keyword
     )
-
 
     print("✓ Article Generated")
 
@@ -24,7 +24,6 @@ def run_content_pipeline(topic, keyword):
         article["content"]
     )
 
-
     print("✓ SEO Formatting Completed")
 
 
@@ -33,19 +32,19 @@ def run_content_pipeline(topic, keyword):
         "title": article["title"],
 
         "meta_description":
-            seo_data["meta_description"],
+            seo_data.get("meta_description", ""),
 
         "permalink":
-            seo_data["permalink"],
+            seo_data.get("permalink", ""),
 
         "labels":
-            seo_data["label"],
+            seo_data.get("label", []),
 
         "image_alt":
-            seo_data["image_alt"],
+            seo_data.get("image_alt", keyword),
 
         "content":
-            seo_data["optimized_content"]
+            seo_data.get("optimized_content", article["content"])
 
     }
 
@@ -56,7 +55,6 @@ def run_content_pipeline(topic, keyword):
 
 if __name__ == "__main__":
 
-
     result = run_content_pipeline(
         "Kitchen Organization",
         "best kitchen cabinet organizers"
@@ -64,7 +62,6 @@ if __name__ == "__main__":
 
 
     print("\n====== FINAL BLOGGER POST ======")
-
 
     print("Title:")
     print(result["title"])
